@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   notifications = [];
   @ViewChild('content') private mainContent;
   user: any = {};
+  imageSrc: string;
 
   // Sets the margin for the main content to match the sidenav width
   animObs = interval(15).debug('Menu animation').pipe(tap(() => {
@@ -52,12 +53,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userService.userChange$.pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
         this.user = this.userService.get();
+        this.imageSrc = this.userImageSrc();
       });
   }
 
   ngOnInit() {
     this.getNotification();
     this.user = this.userService.get();
+    this.imageSrc = this.userImageSrc();
     this.languages = (<any>languages).map(language => {
       if (language.served_url === document.baseURI) {
         this.current_flag = language.short_code;
