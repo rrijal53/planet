@@ -95,12 +95,14 @@ export class ConfigurationComponent implements OnInit {
   }
 
   localDomainChange(event) {
+    // Shows/hides the warning that advanced options have changed
+    // and if not changed allows user to go to next step
     this.isAdvancedOptionsChanged = (this.defaultLocal !== event.target.value);
+    // Reset the checkbox if they change localUrl -> confirm checkbox -> change localUrl again
     this.isAdvancedOptionConfirmed = !this.isAdvancedOptionsChanged;
   }
 
   resetDefault() {
-    this.isAdvancedOptionConfirmed = false;
     this.isAdvancedOptionsChanged = false;
     this.configurationFormGroup.get('localDomain').setValue(this.defaultLocal);
   }
