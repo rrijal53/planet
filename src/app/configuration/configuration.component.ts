@@ -96,6 +96,7 @@ export class ConfigurationComponent implements OnInit {
 
   localDomainChange(event) {
     this.isAdvancedOptionsChanged = (this.defaultLocal !== event.target.value);
+    this.isAdvancedOptionConfirmed = !this.isAdvancedOptionsChanged;
   }
 
   resetDefault() {
