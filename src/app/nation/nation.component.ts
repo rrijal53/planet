@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { debug } from '../debug-operator';
+import { findDocuments } from '../shared/mangoQueries';
 
 @Component({
   templateUrl: './nation.component.html'
@@ -55,10 +56,12 @@ export class NationComponent implements OnInit, AfterViewInit {
   }
 
   getNationList() {
-    this.couchService.allDocs(this.dbName)
+    this.couchService.post('communityregistrationrequests/_find',
+      findDocuments({ 'registrationRequest': 'accepted' }, 0, [ { 'createdDate': 'desc' } ] ))
       .subscribe((data) => {
-        this.nations.data = data.map(nation => {
-          if (nation.name === this.route.snapshot.paramMap.get('nation')) {
+        this.nations.data = data.docs.map(nation => {
+          this.nationsList.push(nation);
+          if (nation.code === this.route.snapshot.paramMap.get('nation')) {
             this.filter.parentDomain = nation.localDomain;
           }
           if (this.route.snapshot.paramMap.get('nation') !== null) {
@@ -67,7 +70,7 @@ export class NationComponent implements OnInit, AfterViewInit {
           }
           return nation;
         });
-      }, (error) => this.message = 'There was a problem getting NationList');
+      }, (error) => this.message = 'There was a problem getting child planet list');
   }
 
   deleteClick(nation) {
@@ -122,12 +125,12 @@ export class NationComponent implements OnInit, AfterViewInit {
   }
 
   getCommunity(url) {
-    this.couchService.allDocs(this.dbName, { domain: url })
+    this.couchService.post('communityregistrationrequests/_find',
+      findDocuments({ 'registrationRequest': 'accepted' }, 0, [ { 'createdDate': 'desc' } ] ),
+      { domain: url })
       .subscribe((res: any) => {
-        this.nations.data = res.rows.map(nations => {
-          return nations;
-        });
-      }, (error) => this.message = 'There was a problem getting NationList');
+        this.nations.data = res.docs;
+      }, (error) => this.message = 'There was a problem getting child planet list');
   }
 
   view(planet) {

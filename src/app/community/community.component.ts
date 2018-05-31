@@ -53,8 +53,9 @@ export class CommunityComponent implements OnInit, AfterViewInit {
     this.couchService.post('communityregistrationrequests/_find',
       findDocuments({ 'registrationRequest': { '$ne': 'accepted' } }, 0, [ { 'createdDate': 'desc' } ] ))
       .subscribe((data) => {
+        console.log(data.docs);
         this.communities.data = data.docs;
-      }, (error) => this.message = 'There was a problem getting Communities');
+      }, (error) => this.message = 'There was a problem getting Requests');
   }
 
   updateRev(item, array) {
