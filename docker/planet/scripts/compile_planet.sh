@@ -3,9 +3,7 @@
 
 . ./build_planet.sh
 
-if [ -z "${I18N}" ]; then
-  I18N="single"
-fi
+I18N="multi"
 
 echo "Build the angular app in production mode stage"
 if [ "${I18N}" = "multi" ]; then
