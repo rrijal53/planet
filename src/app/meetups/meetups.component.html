@@ -12,12 +12,12 @@
 </mat-toolbar>
 
 <div class="space-container primary-link-hover">
-  <mat-toolbar class="primary-color font-size-1">
-    <button *ngIf="!parent" mat-mini-fab routerLink="add">
+  <mat-toolbar *ngIf="!parent && (currentUser.isUserAdmin || currentUser.roles.length)" class="primary-color font-size-1">
+    <button mat-mini-fab routerLink="add">
       <mat-icon>add</mat-icon>
     </button>
     <span class="toolbar-fill"></span>
-    <span *ngIf="!parent">
+    <span>
       <button mat-button [disabled]="!selection.selected.length || selectedNotJoined === 0" (click)="addToMeetups(selection.selected)">
         <mat-icon aria-hidden="true" class="margin-lr-3">library_add</mat-icon><span i18n>Join Selected</span>
         <span *ngIf="selection?.selected?.length"> ({{selectedNotJoined}})</span>

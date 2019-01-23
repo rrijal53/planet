@@ -11,6 +11,7 @@ import { SubmissionsService } from '../submissions/submissions.service';
 import { PlanetMessageService } from '../shared/planet-message.service';
 import { takeUntil } from 'rxjs/operators';
 import { StateService } from '../shared/state.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   'templateUrl': './surveys.component.html'
@@ -24,6 +25,7 @@ export class SurveysComponent implements OnInit, AfterViewInit, OnDestroy {
   dialogRef: MatDialogRef<DialogsListComponent>;
   private onDestroy$ = new Subject<void>();
   emptyData = false;
+  user = this.userService.get();
 
   constructor(
     private couchService: CouchService,
@@ -33,7 +35,8 @@ export class SurveysComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private stateService: StateService
+    private stateService: StateService,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
